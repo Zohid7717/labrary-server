@@ -33,6 +33,9 @@ exports.isAdmin = async (req, res, next) => {
     req.userID = decoded.id
     next()
   } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ success: false, message: 'Срок действия токена истек. Пожалуйста, авторизуйтесь снова.' });
+    }
     console.log(error)
     res.status(500).json({ success: false, message: 'Ошибка при обработке данных. Пожалюста повторите попытку!' })
   }
