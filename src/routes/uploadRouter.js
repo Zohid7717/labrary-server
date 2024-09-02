@@ -4,7 +4,7 @@ const { isAdmin } = require('../middleware/checkAuth')
 
 const router = new Router()
 
-router.post('/uploadUserImg', isAdmin, (req, res) => {
+router.post('/uploadUserImg', (req, res) => {
   FileHandler.uploadFile(req, res)
 })
 router.delete('/deleteUserImg/:filename', isAdmin, (req, res) => {

@@ -41,7 +41,7 @@ class FileHandler {
       res.status(200).json({ success: true, message: 'Файл успешно загружен' })
     } catch (error) {
       console.log(error)
-      res.status(500).json({ success: false, message: 'Ошибка прии загрузке файла' })
+      res.status(500).json({ success: false, message: 'Ошибка при загрузке файла' })
     }
   }
 
