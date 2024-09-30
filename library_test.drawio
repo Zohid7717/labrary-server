@@ -97,7 +97,7 @@
         <mxCell id="63EOkDgWJn7iTgOE1g50-14" value="user_role varchar (10)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" vertex="1" parent="gEjJsQgAz-J8CRmvU8ZP-18">
           <mxGeometry y="176" width="180" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="-wh2W0JTpmmPMplgeVcw-1" value="phone_number varchar (13)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="gEjJsQgAz-J8CRmvU8ZP-18" vertex="1">
+        <mxCell id="-wh2W0JTpmmPMplgeVcw-1" value=" user_number varchar (13)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" parent="gEjJsQgAz-J8CRmvU8ZP-18" vertex="1">
           <mxGeometry y="206" width="180" height="30" as="geometry" />
         </mxCell>
         <mxCell id="63EOkDgWJn7iTgOE1g50-15" value="user_img varchar (15)" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;" vertex="1" parent="gEjJsQgAz-J8CRmvU8ZP-18">

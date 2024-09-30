@@ -12,7 +12,9 @@ class FileHandler {
         cb(null, file.originalname)
       }
     })
+    
     this.types = ['image/png', 'image/jpg', 'image/jpeg']
+    
     this.fileFilter = (req, file, cb) => {
       try {
         if (this.types.includes(file.mimetype)) {
@@ -24,7 +26,9 @@ class FileHandler {
         cb(error, false)
       }
     }
+    
     this.upload = multer({ storage: this.storage, fileFilter: this.fileFilter })
+    
   }
 
   async uploadFile(req, res) {
@@ -54,7 +58,7 @@ class FileHandler {
     } catch (error) {
       console.log(error)
       if (error.code === 'ENOENT') {
-        res.status(404).json({success: false, message: 'Файл не найден'})
+        res.status(404).json({ success: false, message: 'Файл не найден' })
       } else {
         res.status(500).json({ success: false, message: 'Ошибка при удалении файла' })
       }

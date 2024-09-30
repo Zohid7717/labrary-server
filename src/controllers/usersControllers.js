@@ -1,12 +1,15 @@
 const client = require('../db')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const UUID = require('../middleware/queries')
 
 const isUsedQuery = (baseParam) => {
   return `SELECT EXISTS (SELECT 1 FROM users WHERE ${baseParam} = $1)`
 }
+
+const addUserColumnQuery = `ALTER TABLE users ADD COLUMN user_passport VARCHAR(10)`
 const authUserQuery = `SELECT * FROM users WHERE user_passport = $1`
-const addUser = `INSERT INTO users (user_firstname, user_lastname, user_passport, phone_number, user_password, user_role, user_img) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`
+const addUserQuery = `INSERT INTO users (user_firstname, user_lastname, user_passport, user_number, user_password, user_role, user_img) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`
 const addBasketQuery = `INSERT INTO basket (user_id) VALUES ($1) RETURNING *`
 const getAllQuery = 'SELECT * FROM users'
 const deleteUserQuery = `DELETE FROM users WHERE id = $1 RETURNING *`
@@ -38,8 +41,8 @@ exports.getMe = async (req, res) => {
 
 exports.regUser = async (req, res) => {
   try {
-    const { user_firstname, user_lastname, user_passport, phone_number, user_pass, user_img } = req.body
-    if (!user_firstname || !user_lastname || !user_passport || !phone_number || !user_pass) {
+    const { user_firstname, user_lastname, user_passport, user_number, user_pass, user_img } = req.body
+    if (!user_firstname || !user_lastname || !user_passport || ! user_number || !user_pass) {
       return res.status(401).json({ success: false, message: 'Ведите все нужные данные для создания пользователя' })
     }
     const isUsedPassport = await client.query(isUsedQuery('user_passport'), [user_passport])
@@ -47,13 +50,13 @@ exports.regUser = async (req, res) => {
     if (isUsedPassport.rows[0].exists) {
       return res.status(402).json({ success: false, message: 'Такие паспортные данные существуют в базе!' })
     }
-    const isUsedPhone = await client.query(isUsedQuery('phone_number'), [phone_number])
+    const isUsedPhone = await client.query(isUsedQuery(' user_number'), [ user_number])
     if (isUsedPhone.rows[0].exists) {
       return res.status(403).json({ success: false, message: 'Такой номер телефона существует в базе!' })
     }
     const user_password = await bcrypt.hash(user_pass, 5)
     const user_role = 'user'
-    const newUser = await client.query(addUser, [user_firstname, user_lastname, user_passport, phone_number, user_password, user_role, user_img])
+    const newUser = await client.query(addUser, [user_firstname, user_lastname, user_passport,  user_number, user_password, user_role, user_img])
     const user = newUser.rows[0]
     const newBasket = await client.query(addBasketQuery, [user.id])
     res.status(200).json({ success: true, message: 'Пользователь создан успешно!', result: user })
@@ -65,8 +68,16 @@ exports.regUser = async (req, res) => {
 
 exports.regAdmin = async (req, res) => {
   try {
-    const { user_firstname, user_lastname, user_passport, phone_number, user_pass, admin_pass, user_img } = await req.body
-    if (!user_firstname || !user_lastname || !user_passport || !phone_number || !user_pass || !admin_pass) {
+    const {
+      user_firstname,
+      user_lastname,
+      user_passport,
+      user_number,
+      user_pass,
+      admin_pass,
+      user_img
+    } = await req.body
+    if (!user_firstname || !user_lastname || !user_passport || ! user_number || !user_pass || !admin_pass) {
       return res.status(401).json({ success: false, message: 'Ведите все нужные данные для создания администратора' })
     }
     const isUsedPassport = await client.query(isUsedQuery('user_passport'), [user_passport])
@@ -74,7 +85,7 @@ exports.regAdmin = async (req, res) => {
     if (isUsedPassport.rows[0].exists) {
       return res.status(402).json({ success: false, message: 'Такие паспортные данные существуют в базе!' })
     }
-    const isUsedPhone = await client.query(isUsedQuery('phone_number'), [phone_number])
+    const isUsedPhone = await client.query(isUsedQuery(' user_number'), [ user_number])
     if (isUsedPhone.rows[0].exists) {
       return res.status(403).json({ success: false, message: 'Такой номер телефона существует в базе!' })
     }
@@ -83,7 +94,7 @@ exports.regAdmin = async (req, res) => {
     }
     const user_password = await bcrypt.hash(user_pass, 5)
     const user_role = 'admin'
-    const newUser = await client.query(addUser, [user_firstname, user_lastname, user_passport, phone_number, user_password, user_role, user_img])
+    const newUser = await client.query(addUserQuery, [user_firstname, user_lastname, user_passport, user_number, user_password, user_role, user_img])
     const user = newUser.rows[0]
     const token = generateJwt(user.id, user.user_firstname, user.user_role)
     res.status(200).json({ success: true, message: 'Администратор успешно создан!', token, user })

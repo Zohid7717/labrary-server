@@ -7,8 +7,8 @@ const usersRoutes = require('./usersRouter')
 const quotesRoutes = require('./quotesRouter')
 const tagsRoutes = require('./tagsRouter')
 const uploadBookRoutes = require('./uploadBooksRouter')
-const categoriesRoutes = require('./cateegoriesRouter')
-
+const categoriesRoutes = require('./categoriesRouter')
+const ratingRoutes = require('./ratingRouter')
 
 const router = new Router()
 
@@ -21,5 +21,6 @@ router.use('/quotes', quotesRoutes)
 router.use('/uploadBook', uploadBookRoutes)
 router.use('/tags', tagsRoutes)
 router.use('/category', categoriesRoutes)
+router.use('/rating', ratingRoutes)
 
 module.exports = router

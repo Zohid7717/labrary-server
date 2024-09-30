@@ -13,6 +13,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.resolve(__dirname, './uploads/userImg')))
 app.use(express.static(path.resolve(__dirname, './uploads/e_books_img')))
+app.use(express.static(path.resolve(__dirname, './uploads/book_img')))
 app.use('/api', router)
 
 const start = async () => {

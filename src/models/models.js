@@ -43,7 +43,7 @@ const User = sequelize.Sequelize.define('user', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false },
   passport_information: { type: DataTypes.STRING, unique:true, allowNull: false },
-  phone_number: {type: DataTypes.STRING, allowNull: false}
+   user_number: {type: DataTypes.STRING, allowNull: false}
 })
 
 User.hasOne(Basket)
